@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<meta content="index.html">
+<html>
+<meta charset="utf-8">
+<head>
+  <title></title>
+</head>
+<body>
+
+  <h1>My Todo</h1>
+  <div id="todos"></div>
+<script>
+  var xhr = new XMLHttpRequest();
+xhr.open("GET", "/todos.json", true);
+xhr.onload = function (e) {
+  if (xhr.readyState === 4) {
+    if (xhr.status === 200) {
+      console.log(xhr.responseText);
+      // alert(xhr.responseText);
+
+      var todos = docment.getElementById("todos");
+      // divのidを取得
+      var json_data = JSON.parse(xhr.responseText);
+      // responseTextは文字列しか取れないのでJSONに変換する必要がある
+      var ul_tag = docment.createElement("ul");
+      for(i=0;i<json_data.length;i++){
+        var li_tag = docment.createElement("li");
+        li_tag.innerHTML = json_data[i]["id"]+":"+json_data[i]["comment"]+":"+json_data[i]["done"];
+        ul_tag.appendChild(li_tag);
+      }
+      todos.appendChild(ul_tag);
+      // todos.innerHTML = json_data[0]["comment"];
+
+      // todos.innerHTML = xhr.responseText;
+      // divの中身を取得
+
+    } else {
+      console.error(xhr.statusText);
+    }
+  }
+};
+xhr.onerror = function (e) {
+  console.error(xhr.statusText);
+};
+xhr.send(null);
+</script>
+
+</body>
+</html>
+
