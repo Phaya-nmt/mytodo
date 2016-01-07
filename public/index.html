@@ -5,24 +5,6 @@
 <meta charset="utf-8">
 <head>
   <title></title>
-</head>
-<body>
-
-  <h1>My Todo</h1>
-
-  <form action="/todos.json" method="post">
-  <input type="hidden" name="authenticity_token" value="" >
-
-  <input name="todo[comment]">
-  <input name="todo[done]" type="hidden" value="0">
-  <input name="todo[done]" type="checkbox" value="1">
-  <input type="submit">
-  </form>
-
-
-
-
-  <div id="todos"></div>
 <script>
 
   document.addEventListener("DOMContentLoaded",function(event){
@@ -75,6 +57,23 @@ xhr.onerror = function (e) {
 };
 xhr.send(null);
 </script>
+</head>
+<body>
+
+  <h1>My Todo</h1>
+
+  <form action="/todos.json" method="post">
+  <input type="hidden" name="authenticity_token">
+  <input name="todo[comment]">
+  <input name="todo[done]" type="hidden" value="0">
+  <input name="todo[done]" type="checkbox" value="1">
+  <input type="submit">
+  </form>
+
+
+
+
+  <div id="todos"></div>
 
 </body>
 </html>
