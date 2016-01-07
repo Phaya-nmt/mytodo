@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <meta content="index.html">
+ <meta name="csrf-param" content="authenticity_token" />
 <html>
 <meta charset="utf-8">
 <head>
@@ -8,8 +9,38 @@
 <body>
 
   <h1>My Todo</h1>
+
+  <form action="/todos.json" method="post">
+  <input type="hidden" name="authenticity_token" value="" >
+
+  <input name="todo[comment]">
+  <input name="todo[done]" type="hidden" value="0">
+  <input name="todo[done]" type="checkbox" value="1">
+  <input type="submit">
+  </form>
+
+
+
+
   <div id="todos"></div>
 <script>
+
+  document.addEventListener("DOMContentLoaded",function(event){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/todos.json", true);
+    xhr.onload = function (e) {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          console.log(xhr.responseText);
+          var json_data = JSON.parse(xhr.responseText);
+          document.getElementById("auth_token").value = json_data.token;
+        }
+      }
+    }
+    xhr.send(null);
+  });
+
+
   var xhr = new XMLHttpRequest();
 xhr.open("GET", "/todos.json", true);
 xhr.onload = function (e) {
@@ -18,13 +49,13 @@ xhr.onload = function (e) {
       console.log(xhr.responseText);
       // alert(xhr.responseText);
 
-      var todos = docment.getElementById("todos");
+      var todos = document.getElementById("todos");
       // divのidを取得
       var json_data = JSON.parse(xhr.responseText);
       // responseTextは文字列しか取れないのでJSONに変換する必要がある
-      var ul_tag = docment.createElement("ul");
+      var ul_tag = document.createElement("ul");
       for(i=0;i<json_data.length;i++){
-        var li_tag = docment.createElement("li");
+        var li_tag = document.createElement("li");
         li_tag.innerHTML = json_data[i]["id"]+":"+json_data[i]["comment"]+":"+json_data[i]["done"];
         ul_tag.appendChild(li_tag);
       }

@@ -15,6 +15,12 @@ class TodosController < ApplicationController
   # GET /todos/new
   def new
     @todo = Todo.new
+
+    respond_to do |format|
+      format.html
+      format.json { render json: {token: form_authenticity_token}}
+      # railsが書き出すトークンを取得してPOSTする際に持たせておく
+    end
   end
 
   # GET /todos/1/edit
